@@ -10,7 +10,11 @@ public class RunTime {
     private static int[] SAMPLE_SIZES = new int[] { 10, 100, 1000, 10000, 100000, 1000000, 2000000, 3000000, 4000000, 5000000};
 
     public static void main(final String[] args) {
-        executionTimeReport();
+        executionTimeReport1();
+        
+        System.out.println("\n");
+        
+        executionTimeReport2();
     }
 
     public static int[] generateRandomArray(int size)
@@ -25,7 +29,7 @@ public class RunTime {
 	    return rarr;
 	}
     
-    private static void executionTimeReport() {
+    private static void executionTimeReport1() {
     	 long startTime;
     	 long endTime;
          
@@ -42,12 +46,49 @@ public class RunTime {
     		ParalelQuickSort.quickSort(randomArray);
     		endTime = System.currentTimeMillis();
 
-    		System.out.format("%7d      |%n", endTime - startTime);
+    		System.out.format("%7d      |", endTime - startTime);
     		
+    		randomArray = generateRandomArray(size);
+            startTime = System.currentTimeMillis();
+    		ParalelQuickSort.pQuickSort(randomArray);
+    		endTime = System.currentTimeMillis();
+
+    		System.out.format("%7d                 |%n", endTime - startTime);
 
 
         }
     	System.out.print("========================================================\n");
      }
+    
+    private static void executionTimeReport2() {
+   	 long startTime;
+   	 long endTime;
+        
+   	 System.out.println("Arrays size     |  QuickSort  |   Parallel Mergesort   |");
+   	 System.out.print("========================================================\n");
+   	 
+   	 for (int i =0; i< SAMPLE_SIZES.length;i++) {
+       	int size = SAMPLE_SIZES[i]; 
+           
+        System.out.print(String.format("  %10d    |",size));
+
+        int[] randomArray = generateRandomArray(size);
+        startTime = System.currentTimeMillis();
+   		ParallelMergeSort.mergeSort(randomArray,0,randomArray.length-1);
+   		endTime = System.currentTimeMillis();
+
+   		System.out.format("%7d      |", endTime - startTime);
+   		
+   		randomArray = generateRandomArray(size);
+           startTime = System.currentTimeMillis();
+           ParallelMergeSort.pMergeSort(randomArray);
+   		endTime = System.currentTimeMillis();
+
+   		System.out.format("%7d                 |%n", endTime - startTime);
+
+
+       }
+   	System.out.print("========================================================\n");
+    }
 
 }

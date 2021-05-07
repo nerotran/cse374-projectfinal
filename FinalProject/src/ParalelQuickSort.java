@@ -72,21 +72,17 @@ public class ParalelQuickSort extends RecursiveTask<Integer> {
 	
 	@Override
 	protected Integer compute() {
-		if (start >= end)
-            return null;
-  
-        int p = partition(array, start, end);
-  
-        ParalelQuickSort left
-            = new ParalelQuickSort(start, p - 1, array);
-  
-        ParalelQuickSort right
-            = new ParalelQuickSort(p + 1, end, array);
-        left.fork();
-        right.compute();
-  
-        left.join();
-  
+		if (start < end) {
+			int p = partition(array, start, end);
+			  
+	        ParalelQuickSort left = new ParalelQuickSort(start, p - 1, array);
+	  
+	        ParalelQuickSort right = new ParalelQuickSort(p + 1, end, array);
+	        left.fork();
+	        right.compute();
+	  
+	        left.join();
+		}
         return null;
 	}
 	
